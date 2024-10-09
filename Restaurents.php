@@ -16,14 +16,17 @@ $start_from = ($page - 1) * $limit;
 $nameToSearch = "";
 $locationToSearch = "";
 $ratingToSearch = "";
+$famousForToSearch = "";
+
 
 if (isset($_GET['search'])) {
     $nameToSearch = $_GET['nameToSearch'];
     $locationToSearch = $_GET['locationToSearch'];
     $ratingToSearch = $_GET['ratingToSearch'];
+    $famousForToSearch = $_GET['famousForToSearch'];
 
     // Build the base query for restaurants
-    $query = "SELECT name, location, rating, mapLink, famousFor FROM restaurants WHERE 1=1"; // Always true condition to append other conditions
+    $query = "SELECT id,name, location, rating, mapLink, famousFor FROM restaurants WHERE 1=1"; // Always true condition to append other conditions
 
     // Apply name and location filters
     if (!empty($nameToSearch)) {
@@ -31,6 +34,9 @@ if (isset($_GET['search'])) {
     }
     if (!empty($locationToSearch)) {
         $query .= " AND location LIKE '%" . $locationToSearch . "%'";
+    }
+    if (!empty($famousForToSearch)) {
+        $query .= " AND famousFor LIKE '%" . $famousForToSearch . "%'";
     }
 
     // Filter by rating
@@ -47,7 +53,7 @@ if (isset($_GET['search'])) {
         $search_result = filterTable($query);
     }
 } else {
-    $query = "SELECT name, location, rating, mapLink, famousFor FROM restaurants LIMIT $start_from, $limit"; // Default query with pagination
+    $query = "SELECT id, name, location, rating, mapLink, famousFor FROM restaurants LIMIT $start_from, $limit"; // Default query with pagination
     $search_result = filterTable($query);
 }
 
@@ -89,7 +95,7 @@ $total_pages = ceil($total_records / $limit);
     <div class="container mt-4">
         <h1>Search Restaurants</h1>
         <button class="btn btn-secondary mb-3" onclick="getLocation()">Detect My Location</button>
-        <a class="mb-3 text-dark text-decoration-none " href="restaurant.php">Refresh</a>
+        <a class="mb-3 text-dark text-decoration-none " href="restaurants.php">Refresh</a>
         <form method="get" action="">
             <div class="mb-3">
                 <label for="nameToSearch" class="form-label">Restaurant Name</label>
@@ -98,6 +104,10 @@ $total_pages = ceil($total_records / $limit);
             <div class="mb-3">
                 <label for="locationToSearch" class="form-label">Location</label>
                 <input type="text" id="locationToSearch" name="locationToSearch" class="form-control" placeholder="Search by location..." value="<?php if (isset($locationToSearch)) { echo $locationToSearch; } ?>">
+            </div>
+            <div class="mb-3">
+                <label for="famousForToSearch" class="form-label">famousFor</label>
+                <input type="text" id="famousForToSearch" name="famousForToSearch" class="form-control" placeholder="Search by famousFor..." value="<?php if (isset($famousForToSearch)) { echo $famousForToSearch; } ?>">
             </div>
             <div class="mb-3">
                 <label for="ratingToSearch" class="form-label">Rating</label>
@@ -131,6 +141,7 @@ $total_pages = ceil($total_records / $limit);
                             <p class="card-text">Rating: <?php echo $row['rating']; ?></p>
                             <p class="card-text">Famous For: <?php echo $row['famousFor']; ?></p>
                             <a href="<?php echo $row['mapLink']; ?>" target="_blank" class="btn btn-primary">View on Map</a>
+                            <a href="rest_details.php?id=<?php echo $row['id'];?>"> More details</a>
                         </div>
                     </div>
                 </div>

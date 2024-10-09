@@ -15,15 +15,13 @@ $start_from = ($page - 1) * $limit;
 // Initialize search variables
 $nameToSearch = "";
 $locationToSearch = "";
-$ratingToSearch = "";
 
 if (isset($_GET['search'])) {
     $nameToSearch = $_GET['nameToSearch'];
     $locationToSearch = $_GET['locationToSearch'];
-    $ratingToSearch = $_GET['ratingToSearch'];
 
-    // Build the base query for hospitals
-    $query = "SELECT name, address, location, rating, degree, years, owner, famousFor FROM hospitals WHERE 1=1"; // Always true condition to append other conditions
+    // Build the base query for general stores
+    $query = "SELECT id, name, location, details, famous_for, phone_number, map_url FROM general_stores WHERE 1=1"; // Always true condition to append other conditions
 
     // Apply name and location filters
     if (!empty($nameToSearch)) {
@@ -33,21 +31,10 @@ if (isset($_GET['search'])) {
         $query .= " AND location LIKE '%" . $locationToSearch . "%'";
     }
 
-    // Filter by rating
-    if (!empty($ratingToSearch)) {
-        $queryExact = $query . " AND rating = '" . $ratingToSearch . "'";
-        $search_result = filterTable($queryExact);
-
-        if (mysqli_num_rows($search_result) == 0) {
-            $query .= " ORDER BY ABS(rating - '" . $ratingToSearch . "') LIMIT 5"; // Fetch the 5 nearest values
-            $search_result = filterTable($query);
-        }
-    } else {
-        $query .= " LIMIT $start_from, $limit"; // Add pagination limit
-        $search_result = filterTable($query);
-    }
+    $query .= " LIMIT $start_from, $limit"; // Add pagination limit
+    $search_result = filterTable($query);
 } else {
-    $query = "SELECT name, address, location, rating, degree, years, owner, famousFor FROM hospitals LIMIT $start_from, $limit"; // Default query with pagination
+    $query = "SELECT id, name, location, details, famous_for, phone_number, map_url FROM general_stores LIMIT $start_from, $limit"; // Default query with pagination
     $search_result = filterTable($query);
 }
 
@@ -60,7 +47,7 @@ function filterTable($query)
 }
 
 // Get total records for pagination
-$totalQuery = "SELECT COUNT(*) FROM hospitals";
+$totalQuery = "SELECT COUNT(*) FROM general_stores";
 $total_result = filterTable($totalQuery);
 $total_records = mysqli_fetch_array($total_result)[0];
 $total_pages = ceil($total_records / $limit);
@@ -73,7 +60,7 @@ $total_pages = ceil($total_records / $limit);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital Locator</title>
+    <title>General Store Locator</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -84,37 +71,30 @@ $total_pages = ceil($total_records / $limit);
     <!-- Bootstrap Navbar -->
     <?php require('navbar.php') ?>
 
-
     <!-- Search Form -->
     <div class="container mt-4">
-        <h1>Search Hospitals</h1>
-        <button class="btn btn-secondary mb-3" onclick="getLocation()">Detect My Location</button>
-        <a class="mb-3 text-dark text-decoration-none " href="hospital.php">Refresh</a>
+        <h1>Search General Stores</h1>
+        <a class="mb-3 text-dark text-decoration-none " href="general_store.php">Refresh</a>
         <form method="get" action="">
             <div class="mb-3">
-                <label for="nameToSearch" class="form-label">Hospital Name</label>
-                <input type="text" name="nameToSearch" class="form-control" placeholder="Search by hospital names" value="<?php if (isset($nameToSearch)) { echo $nameToSearch; } ?>">
+                <label for="nameToSearch" class="form-label">Store Name</label>
+                <input type="text" name="nameToSearch" class="form-control" placeholder="Search by store names" value="<?php if (isset($nameToSearch)) { echo $nameToSearch; } ?>">
             </div>
             <div class="mb-3">
                 <label for="locationToSearch" class="form-label">Location</label>
                 <input type="text" id="locationToSearch" name="locationToSearch" class="form-control" placeholder="Search by location..." value="<?php if (isset($locationToSearch)) { echo $locationToSearch; } ?>">
             </div>
-            <div class="mb-3">
-                <label for="ratingToSearch" class="form-label">Rating</label>
-                <input type="text" name="ratingToSearch" class="form-control" placeholder="Search by rating..." value="<?php if (isset($ratingToSearch)) { echo $ratingToSearch; } ?>">
-            </div>
             <button type="submit" name="search" class="btn btn-primary">Search</button>
         </form>
 
         <!-- Display Search Filters -->
-        <?php if (isset($nameToSearch) || isset($locationToSearch) || isset($ratingToSearch)) : ?>
+        <?php if (isset($nameToSearch) || isset($locationToSearch)) : ?>
             <div class="mt-3">
                 <h5>You searched for:</h5>
                 <p>
                     <?php
-                    echo (!empty($nameToSearch)) ? "Hospital Name: " . $nameToSearch . " | " : "";
+                    echo (!empty($nameToSearch)) ? "Store Name: " . $nameToSearch . " | " : "";
                     echo (!empty($locationToSearch)) ? "Location: " . $locationToSearch . " | " : "";
-                    echo (!empty($ratingToSearch)) ? "Rating: " . $ratingToSearch . " | " : "";
                     ?>
                 </p>
             </div>
@@ -127,14 +107,11 @@ $total_pages = ceil($total_records / $limit);
                     <div class="card h-100">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $row['name']; ?></h5>
-                            <p class="card-text">Address: <?php echo $row['address']; ?></p>
                             <p class="card-text">Location: <?php echo $row['location']; ?></p>
-                            <p class="card-text">Rating: <?php echo $row['rating']; ?></p>
-                            <p class="card-text">Degree: <?php echo $row['degree']; ?></p>
-                            <p class="card-text">Years: <?php echo $row['years']; ?></p>
-                            <p class="card-text">Owner: <?php echo $row['owner']; ?></p>
-                            <p class="card-text">Famous For: <?php echo $row['famousFor']; ?></p>
-                            
+                            <p class="card-text">Famous For: <?php echo $row['famous_for']; ?></p>
+                            <a href="<?php echo $row['map_url']; ?>" target="_blank" class="btn btn-link">View on Map</a>
+                            <a href="general_details.php?id=<?php echo $row['id'];?>"> More details</a>
+
                         </div>
                     </div>
                 </div>
@@ -146,7 +123,7 @@ $total_pages = ceil($total_records / $limit);
             <ul class="pagination justify-content-center">
                 <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
                     <li class="page-item <?php if ($i == $page) { echo 'active'; } ?>">
-                        <a class="page-link" href="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo $i; ?>&nameToSearch=<?php echo $nameToSearch; ?>&locationToSearch=<?php echo $locationToSearch; ?>&ratingToSearch=<?php echo $ratingToSearch; ?>">
+                        <a class="page-link" href="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo $i; ?>&nameToSearch=<?php echo $nameToSearch; ?>&locationToSearch=<?php echo $locationToSearch; ?>">
                             <?php echo $i; ?>
                         </a>
                     </li>
@@ -157,7 +134,6 @@ $total_pages = ceil($total_records / $limit);
     </div>
 
     <?php require('script.php'); ?>
-
 
 </body>
 
