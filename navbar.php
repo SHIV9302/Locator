@@ -13,7 +13,7 @@
                         <a class="nav-link" href="hospital.php">Hospital</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="general_stores.php">general_stores</a>
+                        <a class="nav-link" href="general_stores.php">General_Stores</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="hotel.php">Hotel</a>
@@ -25,7 +25,7 @@
                         <a class="nav-link" href="college.php">College</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="businessess.php">Grocery</a>
+                    <a class="nav-link" href="businessess.php">Shops</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php" onclick="return confirm('Are you sure you want to Logout?')">Logout</a>

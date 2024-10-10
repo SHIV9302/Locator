@@ -83,6 +83,19 @@ $total_pages = ceil($total_records / $limit);
 
     <!-- Bootstrap Navbar -->
     <?php require('navbar.php') ?>
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="Assets/college1.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="Assets/college2.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="Assets/college3.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+    </div>
+  </div>
+</div>
 
 
     <!-- Search Form -->

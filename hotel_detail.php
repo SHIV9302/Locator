@@ -67,7 +67,7 @@ if (!isset($_SESSION['login_sess'])) {
  <!-- As a link -->
  <nav class="navbar navbar-light bg-light">
   <div class="container-fluid d-flex justify-content-center">
-    <a class="navbar-brand custom-brand" href="#">Restaurant</a>
+    <a class="navbar-brand custom-brand" href="#">hotel</a>
   </div>
 </nav>
 
@@ -98,18 +98,18 @@ if (!isset($_SESSION['login_sess'])) {
     <?php
     if (!isset($_GET['id'])) {
         // Redirect to general_stores.php if no id is provided
-        header('Location: Restaurents.php');
+        header('Location: hotel.php');
 
     } else {
         // Filter and retrieve store details based on the id from the URL
         $data = filteration($_GET);
 
         // Fetch the specific store data
-        $store_res = select("SELECT * FROM restaurants WHERE id=?", [$data['id']], 'i');
+        $store_res = select("SELECT * FROM hotels WHERE id=?", [$data['id']], 'i');
 
         // If no store data is found, redirect back to general_stores.php
         if (mysqli_num_rows($store_res) == 0) {
-            header('Location: Restaurents.php');
+            header('Location: hotel.php');
 
         }
 
@@ -127,8 +127,8 @@ if (!isset($_SESSION['login_sess'])) {
                 <h5>Restaurent Name: <?php echo $store_data['name']; ?></h5>
                 <h6>Location: <?php echo $store_data['location']; ?></h6>
                 <h6>Rating: <?php echo $store_data['rating']; ?></h6>
-                <h6>Famous For: <?php echo $store_data['famousFor']; ?></h6>
-                <h6><a href="<?php echo $store_data['mapLink']; ?>" target="_blank">View on Map</a></h6>
+                <!-- <h6>Famous For: <?php echo $store_data['famousFor']; ?></h6> -->
+                <!-- <h6><a href="<?php echo $store_data['mapLink']; ?>" target="_blank">View on Map</a></h6> -->
             </div>
         </div>
     </div>

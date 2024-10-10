@@ -47,7 +47,7 @@ if (isset($_GET['search'])) {
         $search_result = filterTable($query);
     }
 } else {
-    $query = "SELECT name, location, rating, map_link FROM hotels LIMIT $start_from, $limit"; // Default query with pagination
+    $query = "SELECT id,name, location, rating, map_link FROM hotels LIMIT $start_from, $limit"; // Default query with pagination
     $search_result = filterTable($query);
 }
 
@@ -182,6 +182,7 @@ $total_pages = ceil($total_records / $limit);
                             <p class="card-text">Location: <?php echo $row['location']; ?></p>
                             <p class="card-text">Rating: <?php echo $row['rating']; ?></p>
                             <a href="<?php echo $row['map_link']; ?>" target="_blank" class="btn btn-outline-primary">View Map</a>
+                            <a href="hotel_detail.php?id=<?php echo $row['id'];?>"> More details</a>
                         </div>
                     </div>
                 </div>
