@@ -148,6 +148,7 @@ if (isset($_POST['signup'])) {
                             <!-- Login Link -->
                             <div class="col-12">
                                     <p>Have an Account? <a href="login.php">Login</a></p>
+                                    <p>Signup as a owner <a href="owner_signup.php">Owner Signup</a></p>
                                 </div>
                         </form>
                

@@ -12,7 +12,7 @@ if (!isset($_SESSION['login_sess'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restro Details</title>
+    <title>Hotels Details</title>
      <!-- Bootstrap CSS -->
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -82,13 +82,13 @@ if (!isset($_SESSION['login_sess'])) {
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="Assets/rest2.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+      <img src="Assets/hotel3.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
     </div>
     <div class="carousel-item">
-      <img src="Assets/rest3.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+      <img src="Assets/hotel2.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
     </div>
     <div class="carousel-item">
-      <img src="Assets/rest5.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+      <img src="Assets/hotel3.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
     </div>
   </div>
 </div>
@@ -128,7 +128,8 @@ if (!isset($_SESSION['login_sess'])) {
                 <h6>Location: <?php echo $store_data['location']; ?></h6>
                 <h6>Rating: <?php echo $store_data['rating']; ?></h6>
                 <!-- <h6>Famous For: <?php echo $store_data['famousFor']; ?></h6> -->
-                <!-- <h6><a href="<?php echo $store_data['mapLink']; ?>" target="_blank">View on Map</a></h6> -->
+                <h6><a href="<?php ['mapLink']; ?>" target="_blank">View on Map</a></h6>
+                <a href="" class="btn btn-primary"> Book</a>
             </div>
         </div>
     </div>

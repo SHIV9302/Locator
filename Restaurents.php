@@ -119,10 +119,10 @@ $total_pages = ceil($total_records / $limit);
                 <label for="locationToSearch" class="form-label">Location</label>
                 <input type="text" id="locationToSearch" name="locationToSearch" class="form-control" placeholder="Search by location..." value="<?php if (isset($locationToSearch)) { echo $locationToSearch; } ?>">
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label for="famousForToSearch" class="form-label">famousFor</label>
                 <input type="text" id="famousForToSearch" name="famousForToSearch" class="form-control" placeholder="Search by famousFor..." value="<?php if (isset($famousForToSearch)) { echo $famousForToSearch; } ?>">
-            </div>
+            </div> -->
             <div class="mb-3">
                 <label for="ratingToSearch" class="form-label">Rating</label>
                 <input type="text" name="ratingToSearch" class="form-control" placeholder="Search by rating..." value="<?php if (isset($ratingToSearch)) { echo $ratingToSearch; } ?>">
@@ -155,7 +155,8 @@ $total_pages = ceil($total_records / $limit);
                             <p class="card-text">Rating: <?php echo $row['rating']; ?></p>
                             <p class="card-text">Famous For: <?php echo $row['famousFor']; ?></p>
                             <a href="<?php echo $row['mapLink']; ?>" target="_blank" class="btn btn-primary">View on Map</a>
-                            <a href="rest_details.php?id=<?php echo $row['id'];?>"> More details</a>
+                            <a href="rest_details.php?id=<?php echo $row['id'];?>" class="btn btn-primary"> More details</a>
+                            <a href="https://www.zomato.com/indore/dinner" class="btn btn-primary"> Book</a>
                         </div>
                     </div>
                 </div>
